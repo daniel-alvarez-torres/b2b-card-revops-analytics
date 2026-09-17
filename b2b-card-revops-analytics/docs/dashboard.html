@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vantis — Partnerships channel</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#07070A;--panel:#111015;--line:#242229;--line2:#1a181f;
+--gold:#E0B65C;--gold-d:#8E7236;--txt:#EDEAE3;--dim:#8C877E;
+--teal:#5F9E97;--clay:#C0603B;--f:"Helvetica Neue",Helvetica,Arial,sans-serif}
+body{background:var(--ink);color:var(--txt);font-family:var(--f);font-size:15px;
+line-height:1.5;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+.wrap{max-width:1120px;margin:0 auto;padding:28px 20px 80px}
+h2{font-size:15px;font-weight:600;margin-bottom:4px}
+.sub{color:var(--dim);font-size:13px;line-height:1.45;max-width:66ch}
+section{margin-top:46px}
+.num{text-align:right} .dim{color:var(--dim)} .alt{color:var(--teal)}
+.gap{color:var(--clay)}
+
+.mast{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;
+flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:18px}
+.mark{display:flex;align-items:center;gap:11px}
+.brand{font-size:19px;font-weight:700;letter-spacing:.14em;color:var(--gold)}
+.role{font-size:13px;color:var(--dim);margin-top:3px}
+.synth{border:1px solid var(--clay);color:#E0A183;border-radius:2px;padding:5px 9px;
+font-size:11.5px;line-height:1.35;max-width:250px}
+
+.hero{margin-top:34px;border:1px solid var(--line);background:var(--panel);
+border-radius:3px;overflow:hidden}
+.hero-top{padding:22px 22px 6px}
+.hero-q{font-size:20px;font-weight:600;line-height:1.3;max-width:32ch}
+.hero-q em{font-style:normal;color:var(--gold)}
+.duo{display:flex;flex-wrap:wrap}
+.pane{flex:1 1 240px;padding:20px 22px 24px}
+.pane+.pane{border-left:1px solid var(--line)}
+.big{font-size:58px;font-weight:300;line-height:1;letter-spacing:-.02em}
+.pane.a .big{color:var(--gold)} .pane.b .big{color:var(--teal)}
+.pane h3{font-size:13.5px;font-weight:600;margin:9px 0 5px}
+.pane p{font-size:12.5px;color:var(--dim);line-height:1.5}
+.bridge{border-top:1px solid var(--line);background:#0C0B0F;padding:13px 22px;
+font-size:13px;color:var(--dim)} .bridge b{color:var(--txt);font-weight:600}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(142px,1fr));gap:1px;
+background:var(--line);border:1px solid var(--line);margin-top:1px}
+.kpi{background:var(--panel);padding:15px 16px}
+.kpi .v{font-size:24px;font-weight:400}
+.kpi .k{font-size:12px;color:var(--dim);margin-top:3px}
+
+.rb{margin-top:14px}
+.rb-base{display:flex;justify-content:space-between;align-items:baseline;
+padding:11px 0;border-bottom:1px solid var(--line)}
+.rb-base b{font-size:22px;font-weight:400}
+.rb-row{display:grid;grid-template-columns:200px 1fr 92px;gap:12px;align-items:center;
+padding:7px 0;border-bottom:1px solid var(--line2);font-size:13.5px}
+.rb-t{height:9px;background:#17161B}
+.rb-b{height:100%}
+.rb-row.up .rb-b{background:var(--gold)}
+.rb-row.down .rb-b{background:var(--clay)}
+.rb-row.tot .rb-b{background:var(--teal)}
+.rb-row.tot{border-bottom:0;font-weight:600}
+.rb-v{text-align:right}
+
+.trend{display:flex;gap:2px;align-items:flex-end;height:180px;margin-top:16px}
+.tcol{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%}
+.tstack{flex:1;display:flex;flex-direction:column;justify-content:flex-end}
+.tp{background:var(--gold)} .td{background:var(--gold-d)}
+.tq{font-size:10px;color:var(--dim);text-align:center;margin-top:6px;white-space:nowrap}
+.legend{display:flex;gap:16px;font-size:12px;color:var(--dim);margin-top:10px}
+.sw{display:inline-block;width:10px;height:10px;margin-right:5px;vertical-align:-1px}
+
+.frow{display:grid;grid-template-columns:186px 1fr 132px;gap:12px;align-items:center;
+padding:8px 0;border-bottom:1px solid var(--line2)}
+.flabel{font-size:13px} .flabel.nr{color:var(--clay)}
+.ftrack{height:9px;background:#17161B}
+.fbar{height:100%;background:linear-gradient(90deg,var(--gold-d),var(--gold))}
+.fbar.nr{background:var(--clay)}
+.fval{text-align:right;font-size:14px}
+.step{display:block;font-size:11px;color:var(--dim)}
+
+table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13.5px}
+thead th{font-size:11.5px;color:var(--dim);font-weight:500;text-align:right;
+padding:0 0 8px;border-bottom:1px solid var(--line)}
+thead th:first-child{text-align:left}
+tbody th{text-align:left;font-weight:500;padding:9px 8px 9px 0;
+border-bottom:1px solid var(--line2)}
+tbody td{padding:9px 0 9px 12px;border-bottom:1px solid var(--line2)}
+.cur{display:block;font-size:11px;color:var(--dim);font-weight:400}
+.barcell{width:22%;min-width:80px}
+.stack{position:relative;height:9px;background:#17161B}
+.s-tot{position:absolute;inset:0 auto 0 0;background:var(--gold-d)}
+.s-par{position:absolute;inset:0 auto 0 0;background:var(--gold)}
+.s-att{position:absolute;inset:0 auto 0 0}
+.s-att.over{background:var(--teal)} .s-att.mid{background:var(--gold)}
+.s-att.low{background:var(--clay)}
+.s-mark{position:absolute;top:-2px;bottom:-2px;left:62.5%;width:1px;background:#4A4750}
+td.over,.over{color:var(--teal)} td.low,.low{color:var(--clay)}
+
+.heat{text-align:center;padding:7px 4px;font-size:12px;color:#0B0A0D;font-weight:600;
+border-bottom:1px solid var(--ink)}
+.cohort-tbl th{white-space:nowrap}
+
+.crow{display:grid;grid-template-columns:44px 1fr 48px 1fr;gap:10px;align-items:center;
+padding:6px 0;border-bottom:1px solid var(--line2);font-size:13px}
+.ccode{font-weight:600}
+.ctrack{height:8px;background:#17161B}
+.cbar{height:100%;background:var(--gold)}
+.cshare{text-align:right} .cname{color:var(--dim);font-size:12px}
+
+.ledger{list-style:none;display:grid;
+grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-top:14px}
+.led{background:var(--panel);border:1px solid var(--line);border-left-width:3px;
+padding:12px 13px;border-radius:2px}
+.led.q{border-left-color:var(--clay)} .led.c{border-left-color:var(--teal)}
+.led.f{border-left-color:var(--gold)}
+.led-h{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.led-r{font-size:13px;font-weight:600} .led-n{font-size:17px}
+.led-a{font-size:11.5px;color:var(--dim);margin:1px 0 6px}
+.led p{font-size:12px;color:var(--dim);line-height:1.45}
+
+.flow{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-top:14px;font-size:13px}
+.node{border:1px solid var(--line);background:var(--panel);padding:8px 12px;border-radius:2px}
+.node b{display:block;font-size:17px;font-weight:400}
+.node span{font-size:11.5px;color:var(--dim)}
+.arrow{color:var(--gold-d)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:34px}
+footer{margin-top:54px;padding-top:18px;border-top:1px solid var(--line);
+font-size:12px;color:var(--dim);line-height:1.6}
+@media(max-width:760px){.cols{grid-template-columns:1fr;gap:40px}}
+@media(max-width:620px){
+.frow{grid-template-columns:120px 1fr 86px;gap:8px} .flabel{font-size:12px}
+.big{font-size:46px} .pane+.pane{border-left:0;border-top:1px solid var(--line)}
+.barcell{display:none} .rb-row{grid-template-columns:130px 1fr 78px}
+table{font-size:12.5px} .heat{font-size:10px;padding:5px 2px}
+.crow{grid-template-columns:38px 1fr 44px} .cname{display:none}}
+</style></head><body><div class="wrap">
+
+<div class="mast">
+  <div class="mark">
+    <div><div class="brand">VANTIS</div>
+    <div class="role">Partnerships channel &middot; proposal by Daniel Álvarez</div></div>
+  </div>
+  <div class="synth">Synthetic data. No figure comes from Vantis.
+  11,404 deals and 26,060 account-months generated to show
+  the model structure and the cleanup engine.</div>
+</div>
+
+<div class="hero">
+  <div class="hero-top">
+    <div class="hero-q">The same quarter has <em>two defensible win rates</em>.
+    Before building the dashboard, someone has to decide which one gets reported.</div>
+  </div>
+  <div class="duo">
+    <div class="pane a"><div class="big">32.9%</div>
+      <h3>Against closed deals only</h3>
+      <p>Denominator: won plus lost. This is what HubSpot returns by default and
+      what almost always gets presented to leadership.</p></div>
+    <div class="pane b"><div class="big">27.2%</div>
+      <h3>Counting abandoned deals</h3>
+      <p>Adds the 1,037 referrals open more than 180 days that nobody
+      marked lost. In practice they are already lost.</p></div>
+  </div>
+  <div class="bridge">The gap is
+  <b>5.7 points</b>. If a partner is
+  evaluated on the first number while the credit team plans on the second, the two
+  functions are looking at different businesses.</div>
+</div>
+
+<div class="kpis">
+  <div class="kpi"><div class="v">$54.2M</div>
+    <div class="k">Card spend, 2026-08</div></div>
+  <div class="kpi"><div class="v">$848k</div>
+    <div class="k">Modelled net revenue</div></div>
+  <div class="kpi"><div class="v">1.57%</div>
+    <div class="k">Net take rate on spend</div></div>
+  <div class="kpi"><div class="v">1,114</div>
+    <div class="k">Accounts transacting</div></div>
+  <div class="kpi"><div class="v">$97.8M</div>
+    <div class="k">Limit in live pipeline (838 deals)</div></div>
+  <div class="kpi"><div class="v">104d</div>
+    <div class="k">Median referral to close</div></div>
+  <div class="kpi"><div class="v">59.8%</div>
+    <div class="k">Of all deals via partners</div></div>
+</div>
+
+<section>
+  <h2>Where the revenue actually comes from</h2>
+  <p class="sub">Nothing here is billed to the client. Revenue is a take rate on
+  what the account spends, so the chain has to end in volume, not in signature.
+  Rates used: 1.45% interchange, 0.90% FX spread
+  on cross-border spend, 2.00% monthly on revolved balances, less
+  0.45% of spend in network, processing and rewards.</p>
+  <div class="rb"><div class="rb-base"><span>Card spend</span>
+        <b>$54.2M</b></div><div class="rb-row up">
+      <div class="rb-k">Interchange</div>
+      <div class="rb-t"><div class="rb-b" style="width:92.6%"></div></div>
+      <div class="rb-v">$786k</div></div><div class="rb-row up">
+      <div class="rb-k">FX spread</div>
+      <div class="rb-t"><div class="rb-b" style="width:9.7%"></div></div>
+      <div class="rb-v">$82k</div></div><div class="rb-row up">
+      <div class="rb-k">Financing</div>
+      <div class="rb-t"><div class="rb-b" style="width:26.4%"></div></div>
+      <div class="rb-v">$224k</div></div><div class="rb-row down">
+      <div class="rb-k">Network, processing, rewards</div>
+      <div class="rb-t"><div class="rb-b" style="width:28.7%"></div></div>
+      <div class="rb-v">-$244k</div></div><div class="rb-row tot">
+      <div class="rb-k">Net revenue</div>
+      <div class="rb-t"><div class="rb-b" style="width:100.0%"></div></div>
+      <div class="rb-v">$848k</div></div></div>
+</section>
+
+<section>
+  <h2>Card spend by month</h2>
+  <p class="sub">Twenty-four months of activated accounts. The channel compounds
+  because activated accounts keep spending, not because new deals keep closing.</p>
+  <div class="trend"><div class="tcol" title="Oct 24: $1.6M">
+      <div class="tstack"><div class="td" style="height:0.7%"></div>
+      <div class="tp" style="height:0.8%"></div></div>
+      <div class="tq">&nbsp;</div></div><div class="tcol" title="Nov 24: $3.8M">
+      <div class="tstack"><div class="td" style="height:1.6%"></div>
+      <div class="tp" style="height:2.0%"></div></div>
+      <div class="tq">&nbsp;</div></div><div class="tcol" title="Dec 24: $7.5M">
+      <div class="tstack"><div class="td" style="height:2.8%"></div>
+      <div class="tp" style="height:4.3%"></div></div>
+      <div class="tq">Dec 24</div></div><div class="tcol" title="Jan 25: $10.5M">
+      <div class="tstack"><div class="td" style="height:4.2%"></div>
+      <div class="tp" style="height:5.8%"></div></div>
+      <div class="tq">&nbsp;</div></div><div class="tcol" title="Feb 25: $14.3M">
+      <div class="tstack"><div class="td" style="height:5.7%"></div>
+      <div class="tp" style="height:7.8%"></div></div>
+      <div class="tq">&nbsp;</div></div><div class="tcol" title="Mar 25: $17.8M">
+      <div class="tstack"><div class="td" style="height:6.9%"></div>
+      <div class="tp" style="height:10.0%"></div></div>
+      <div class="tq">Mar 25</div></div><div class="tcol" title="Apr 25: $22.5M">
+      <div class="tstack"><div class="td" style="height:8.3%"></div>
+      <div class="tp" style="height:13.0%"></div></div>
+      <div class="tq">&nbsp;</div></div><div class="tcol" title="May 25: $28.2M">
+      <div class="tstack"><div class="td" style="height:10.3%"></div>
+      <div class="tp" style="height:16.4%"></div></div>
+      <div class="tq">&nbsp;</div></div><div class="tcol" title="Jun 25: $34.7M">
+      <div class="tstack"><div class="td" style="height:12.6%"></div>
+      <div class="tp" style="height:20.2%"></div></div>
+      <div class="tq">Jun 25</div></div><div class="tcol" title="Jul 25: $36.6M">
+      <div class="tstack"><div class="td" style="height:13.4%"></div>
+      <div class="tp" style="height:21.2%"></div></div>
+      <div class="tq">&nbsp;</div></div><div class="tcol" title="Aug 25: $41.7M">
+      <div class="tstack"><div class="td" style="height:15.5%"></div>
+      <div class="tp" style="height:24.0%"></div></div>
+      <div class="tq">&nbsp;</div></div><div class="tcol" title="Sep 25: $47.0M">
+      <div class="tstack"><div class="td" style="height:18.0%"></div>
+      <div class="tp" style="height:26.4%"></div></div>
+      <div class="tq">Sep 25</div></div><div class="tcol" title="Oct 25: $51.1M">
+      <div class="tstack"><div class="td" style="height:20.2%"></div>
+      <div class="tp" style="height:28.2%"></div></div>
+      <div class="tq">&nbsp;</div></div><div class="tcol" title="Nov 25: $56.0M">
+      <div class="tstack"><div class="td" style="height:22.5%"></div>
+      <div class="tp" style="height:30.5%"></div></div>
+      <div class="tq">&nbsp;</div></div><div class="tcol" title="Dec 25: $66.6M">
+      <div class="tstack"><div class="td" style="height:26.9%"></div>
+      <div class="tp" style="height:36.2%"></div></div>
+      <div class="tq">Dec 25</div></div><div class="tcol" title="Jan 26: $64.0M">
+      <div class="tstack"><div class="td" style="height:26.1%"></div>
+      <div class="tp" style="height:34.5%"></div></div>
+      <div class="tq">&nbsp;</div></div><div class="tcol" title="Feb 26: $68.0M">
+      <div class="tstack"><div class="td" style="height:28.1%"></div>
+      <div class="tp" style="height:36.3%"></div></div>
+      <div class="tq">&nbsp;</div></div><div class="tcol" title="Mar 26: $74.2M">
+      <div class="tstack"><div class="td" style="height:30.5%"></div>
+      <div class="tp" style="height:39.7%"></div></div>
+      <div class="tq">Mar 26</div></div><div class="tcol" title="Apr 26: $79.0M">
+      <div class="tstack"><div class="td" style="height:33.5%"></div>
+      <div class="tp" style="height:41.3%"></div></div>
+      <div class="tq">&nbsp;</div></div><div class="tcol" title="May 26: $81.6M">
+      <div class="tstack"><div class="td" style="height:34.4%"></div>
+      <div class="tp" style="height:42.9%"></div></div>
+      <div class="tq">&nbsp;</div></div><div class="tcol" title="Jun 26: $97.9M">
+      <div class="tstack"><div class="td" style="height:41.7%"></div>
+      <div class="tp" style="height:51.0%"></div></div>
+      <div class="tq">Jun 26</div></div><div class="tcol" title="Jul 26: $93.1M">
+      <div class="tstack"><div class="td" style="height:39.2%"></div>
+      <div class="tp" style="height:48.9%"></div></div>
+      <div class="tq">&nbsp;</div></div><div class="tcol" title="Aug 26: $96.8M">
+      <div class="tstack"><div class="td" style="height:40.4%"></div>
+      <div class="tp" style="height:51.3%"></div></div>
+      <div class="tq">&nbsp;</div></div><div class="tcol" title="Sep 26: $105.6M">
+      <div class="tstack"><div class="td" style="height:43.6%"></div>
+      <div class="tp" style="height:56.4%"></div></div>
+      <div class="tq">Sep 26</div></div></div>
+  <div class="legend"><span><span class="sw" style="background:var(--gold)"></span>
+  Partnerships</span><span><span class="sw" style="background:var(--gold-d)"></span>
+  Direct</span></div>
+</section>
+
+<section>
+  <h2>Channel funnel</h2>
+  <p class="sub">Underwriting is where most referrals fall out. It is the one step
+  the rep does not control, which is why it belongs on its own line.</p>
+  <div class="frow"><div class="flabel">Referral Received</div>
+      <div class="ftrack"><div class="fbar" style="width:100.0%"></div></div>
+      <div class="fval">6,815</div></div><div class="frow"><div class="flabel">Qualified</div>
+      <div class="ftrack"><div class="fbar" style="width:96.3%"></div></div>
+      <div class="fval">6,565<span class="step">96.3% of prior · 96.3% of top</span></div></div><div class="frow"><div class="flabel">KYB / Underwriting</div>
+      <div class="ftrack"><div class="fbar" style="width:89.4%"></div></div>
+      <div class="fval">6,096<span class="step">92.9% of prior · 89.4% of top</span></div></div><div class="frow"><div class="flabel">Credit Approved</div>
+      <div class="ftrack"><div class="fbar" style="width:82.0%"></div></div>
+      <div class="fval">5,586<span class="step">91.6% of prior · 82.0% of top</span></div></div><div class="frow"><div class="flabel">Contract Sent</div>
+      <div class="ftrack"><div class="fbar" style="width:76.0%"></div></div>
+      <div class="fval">5,182<span class="step">92.8% of prior · 76.0% of top</span></div></div><div class="frow"><div class="flabel">Closed Won</div>
+      <div class="ftrack"><div class="fbar" style="width:72.5%"></div></div>
+      <div class="fval">4,940<span class="step">95.3% of prior · 72.5% of top</span></div></div>
+</section>
+
+<section>
+  <h2>Spend retention by activation cohort</h2>
+  <p class="sub">Average monthly spend per surviving account, indexed to its first
+  month. Above 100 means accounts are spending more than they did at activation.
+  This is the number that decides whether a partner is worth its commission.</p>
+  <table class="cohort-tbl"><thead><tr><th>Cohort</th><th>M0</th><th>M1</th><th>M2</th><th>M3</th><th>M4</th><th>M5</th><th>M6</th><th>M7</th><th>M8</th><th>M9</th><th>M10</th><th>M11</th><th>M12</th></tr></thead>
+  <tbody><tr><th scope="row">2025Q1<span class="cur">271 accounts</span></th><td class="heat" style="background:rgba(224,182,92,0.74)">100</td><td class="heat" style="background:rgba(224,182,92,0.86)">116</td><td class="heat" style="background:rgba(224,182,92,0.95)">129</td><td class="heat" style="background:rgba(224,182,92,1.00)">146</td><td class="heat" style="background:rgba(224,182,92,1.00)">165</td><td class="heat" style="background:rgba(224,182,92,1.00)">171</td><td class="heat" style="background:rgba(224,182,92,1.00)">181</td><td class="heat" style="background:rgba(224,182,92,1.00)">192</td><td class="heat" style="background:rgba(224,182,92,1.00)">207</td><td class="heat" style="background:rgba(224,182,92,1.00)">207</td><td class="heat" style="background:rgba(224,182,92,1.00)">212</td><td class="heat" style="background:rgba(224,182,92,1.00)">208</td><td class="heat" style="background:rgba(224,182,92,1.00)">197</td></tr><tr><th scope="row">2025Q2<span class="cur">323 accounts</span></th><td class="heat" style="background:rgba(224,182,92,0.74)">100</td><td class="heat" style="background:rgba(224,182,92,0.90)">122</td><td class="heat" style="background:rgba(224,182,92,1.00)">136</td><td class="heat" style="background:rgba(224,182,92,1.00)">139</td><td class="heat" style="background:rgba(224,182,92,1.00)">151</td><td class="heat" style="background:rgba(224,182,92,1.00)">164</td><td class="heat" style="background:rgba(224,182,92,1.00)">181</td><td class="heat" style="background:rgba(224,182,92,1.00)">202</td><td class="heat" style="background:rgba(224,182,92,1.00)">215</td><td class="heat" style="background:rgba(224,182,92,1.00)">200</td><td class="heat" style="background:rgba(224,182,92,1.00)">201</td><td class="heat" style="background:rgba(224,182,92,1.00)">202</td><td class="heat" style="background:rgba(224,182,92,1.00)">197</td></tr><tr><th scope="row">2025Q3<span class="cur">349 accounts</span></th><td class="heat" style="background:rgba(224,182,92,0.74)">100</td><td class="heat" style="background:rgba(224,182,92,0.85)">115</td><td class="heat" style="background:rgba(224,182,92,0.97)">130</td><td class="heat" style="background:rgba(224,182,92,1.00)">147</td><td class="heat" style="background:rgba(224,182,92,1.00)">160</td><td class="heat" style="background:rgba(224,182,92,1.00)">178</td><td class="heat" style="background:rgba(224,182,92,1.00)">184</td><td class="heat" style="background:rgba(224,182,92,1.00)">203</td><td class="heat" style="background:rgba(224,182,92,1.00)">216</td><td class="heat" style="background:rgba(224,182,92,1.00)">234</td><td class="heat" style="background:rgba(224,182,92,1.00)">231</td><td class="heat" style="background:rgba(224,182,92,1.00)">232</td><td class="heat" style="background:rgba(224,182,92,1.00)">224</td></tr><tr><th scope="row">2025Q4<span class="cur">352 accounts</span></th><td class="heat" style="background:rgba(224,182,92,0.74)">100</td><td class="heat" style="background:rgba(224,182,92,0.85)">114</td><td class="heat" style="background:rgba(224,182,92,0.95)">128</td><td class="heat" style="background:rgba(224,182,92,1.00)">139</td><td class="heat" style="background:rgba(224,182,92,1.00)">150</td><td class="heat" style="background:rgba(224,182,92,1.00)">162</td><td class="heat" style="background:rgba(224,182,92,1.00)">187</td><td class="heat" style="background:rgba(224,182,92,1.00)">203</td><td class="heat" style="background:rgba(224,182,92,1.00)">219</td><td class="heat" style="background:rgba(224,182,92,1.00)">212</td><td class="heat" style="background:rgba(224,182,92,1.00)">197</td><td class="heat" style="background:rgba(224,182,92,1.00)">188</td><td></td></tr><tr><th scope="row">2026Q1<span class="cur">341 accounts</span></th><td class="heat" style="background:rgba(224,182,92,0.74)">100</td><td class="heat" style="background:rgba(224,182,92,0.87)">117</td><td class="heat" style="background:rgba(224,182,92,0.98)">133</td><td class="heat" style="background:rgba(224,182,92,1.00)">154</td><td class="heat" style="background:rgba(224,182,92,1.00)">170</td><td class="heat" style="background:rgba(224,182,92,1.00)">190</td><td class="heat" style="background:rgba(224,182,92,1.00)">196</td><td class="heat" style="background:rgba(224,182,92,1.00)">222</td><td class="heat" style="background:rgba(224,182,92,1.00)">229</td><td></td><td></td><td></td><td></td></tr><tr><th scope="row">2026Q2<span class="cur">315 accounts</span></th><td class="heat" style="background:rgba(224,182,92,0.74)">100</td><td class="heat" style="background:rgba(224,182,92,0.87)">118</td><td class="heat" style="background:rgba(224,182,92,0.96)">130</td><td class="heat" style="background:rgba(224,182,92,1.00)">147</td><td class="heat" style="background:rgba(224,182,92,1.00)">158</td><td class="heat" style="background:rgba(224,182,92,1.00)">174</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><th scope="row">2026Q3<span class="cur">469 accounts</span></th><td class="heat" style="background:rgba(224,182,92,0.74)">100</td><td class="heat" style="background:rgba(224,182,92,0.88)">119</td><td class="heat" style="background:rgba(224,182,92,1.00)">136</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table>
+</section>
+
+<section>
+  <h2>Markets</h2>
+  <p class="sub">17 countries, 12 currencies. Each amount
+  is converted using the deal's own rate, not one month-end rate. The lighter bar is
+  the share partners bring in.</p>
+  <table><thead><tr><th>Country</th><th>Accounts</th><th></th><th>Spend</th>
+  <th>Net rev</th><th>Via partners</th></tr></thead><tbody><tr><th scope="row">United States
+      <span class="cur">USD · NORTAM</span></th>
+      <td class="num">308</td>
+      <td class="barcell"><div class="stack"><div class="s-tot" style="width:100.0%"></div>
+      <div class="s-par" style="width:56.0%"></div></div></td>
+      <td class="num">$17.3M</td>
+      <td class="num">$271k</td>
+      <td class="num dim">56.0%</td></tr><tr><th scope="row">Brazil
+      <span class="cur">BRL · LATAM</span></th>
+      <td class="num">319</td>
+      <td class="barcell"><div class="stack"><div class="s-tot" style="width:97.5%"></div>
+      <div class="s-par" style="width:56.1%"></div></div></td>
+      <td class="num">$16.9M</td>
+      <td class="num">$258k</td>
+      <td class="num dim">57.6%</td></tr><tr><th scope="row">Mexico
+      <span class="cur">MXN · LATAM</span></th>
+      <td class="num">298</td>
+      <td class="barcell"><div class="stack"><div class="s-tot" style="width:89.4%"></div>
+      <div class="s-par" style="width:50.3%"></div></div></td>
+      <td class="num">$15.5M</td>
+      <td class="num">$245k</td>
+      <td class="num dim">56.3%</td></tr><tr><th scope="row">Colombia
+      <span class="cur">COP · LATAM</span></th>
+      <td class="num">211</td>
+      <td class="barcell"><div class="stack"><div class="s-tot" style="width:56.3%"></div>
+      <div class="s-par" style="width:32.3%"></div></div></td>
+      <td class="num">$9.7M</td>
+      <td class="num">$152k</td>
+      <td class="num dim">57.4%</td></tr><tr><th scope="row">Spain
+      <span class="cur">EUR · EMEA</span></th>
+      <td class="num">118</td>
+      <td class="barcell"><div class="stack"><div class="s-tot" style="width:37.1%"></div>
+      <div class="s-par" style="width:18.8%"></div></div></td>
+      <td class="num">$6.4M</td>
+      <td class="num">$101k</td>
+      <td class="num dim">50.7%</td></tr><tr><th scope="row">United Kingdom
+      <span class="cur">GBP · EMEA</span></th>
+      <td class="num">121</td>
+      <td class="barcell"><div class="stack"><div class="s-tot" style="width:28.3%"></div>
+      <div class="s-par" style="width:13.2%"></div></div></td>
+      <td class="num">$4.9M</td>
+      <td class="num">$80k</td>
+      <td class="num dim">46.7%</td></tr><tr><th scope="row">Canada
+      <span class="cur">CAD · NORTAM</span></th>
+      <td class="num">112</td>
+      <td class="barcell"><div class="stack"><div class="s-tot" style="width:27.7%"></div>
+      <div class="s-par" style="width:14.1%"></div></div></td>
+      <td class="num">$4.8M</td>
+      <td class="num">$74k</td>
+      <td class="num dim">50.8%</td></tr><tr><th scope="row">Chile
+      <span class="cur">CLP · LATAM</span></th>
+      <td class="num">69</td>
+      <td class="barcell"><div class="stack"><div class="s-tot" style="width:21.3%"></div>
+      <div class="s-par" style="width:13.4%"></div></div></td>
+      <td class="num">$3.7M</td>
+      <td class="num">$53k</td>
+      <td class="num dim">63.1%</td></tr><tr><th scope="row">Netherlands
+      <span class="cur">EUR · EMEA</span></th>
+      <td class="num">74</td>
+      <td class="barcell"><div class="stack"><div class="s-tot" style="width:16.9%"></div>
+      <div class="s-par" style="width:8.8%"></div></div></td>
+      <td class="num">$2.9M</td>
+      <td class="num">$44k</td>
+      <td class="num dim">52.2%</td></tr><tr><th scope="row">Germany
+      <span class="cur">EUR · EMEA</span></th>
+      <td class="num">63</td>
+      <td class="barcell"><div class="stack"><div class="s-tot" style="width:15.0%"></div>
+      <div class="s-par" style="width:8.2%"></div></div></td>
+      <td class="num">$2.6M</td>
+      <td class="num">$39k</td>
+      <td class="num dim">54.5%</td></tr><tr><th scope="row">Argentina
+      <span class="cur">ARS · LATAM</span></th>
+      <td class="num">57</td>
+      <td class="barcell"><div class="stack"><div class="s-tot" style="width:13.8%"></div>
+      <div class="s-par" style="width:9.9%"></div></div></td>
+      <td class="num">$2.4M</td>
+      <td class="num">$36k</td>
+      <td class="num dim">71.9%</td></tr><tr><th scope="row">France
+      <span class="cur">EUR · EMEA</span></th>
+      <td class="num">42</td>
+      <td class="barcell"><div class="stack"><div class="s-tot" style="width:11.5%"></div>
+      <div class="s-par" style="width:6.6%"></div></div></td>
+      <td class="num">$2.0M</td>
+      <td class="num">$32k</td>
+      <td class="num dim">57.9%</td></tr><tr><th scope="row">Peru
+      <span class="cur">PEN · LATAM</span></th>
+      <td class="num">42</td>
+      <td class="barcell"><div class="stack"><div class="s-tot" style="width:11.0%"></div>
+      <div class="s-par" style="width:7.0%"></div></div></td>
+      <td class="num">$1.9M</td>
+      <td class="num">$29k</td>
+      <td class="num dim">63.8%</td></tr><tr><th scope="row">United Arab Emirates
+      <span class="cur">AED · EMEA</span></th>
+      <td class="num">36</td>
+      <td class="barcell"><div class="stack"><div class="s-tot" style="width:11.0%"></div>
+      <div class="s-par" style="width:6.7%"></div></div></td>
+      <td class="num">$1.9M</td>
+      <td class="num">$31k</td>
+      <td class="num dim">60.7%</td></tr><tr><th scope="row">Poland
+      <span class="cur">PLN · EMEA</span></th>
+      <td class="num">31</td>
+      <td class="barcell"><div class="stack"><div class="s-tot" style="width:8.9%"></div>
+      <div class="s-par" style="width:4.4%"></div></div></td>
+      <td class="num">$1.5M</td>
+      <td class="num">$24k</td>
+      <td class="num dim">49.4%</td></tr><tr><th scope="row">Ireland
+      <span class="cur">EUR · EMEA</span></th>
+      <td class="num">32</td>
+      <td class="barcell"><div class="stack"><div class="s-tot" style="width:7.2%"></div>
+      <div class="s-par" style="width:3.1%"></div></div></td>
+      <td class="num">$1.3M</td>
+      <td class="num">$20k</td>
+      <td class="num dim">43.2%</td></tr><tr><th scope="row">Portugal
+      <span class="cur">EUR · EMEA</span></th>
+      <td class="num">22</td>
+      <td class="barcell"><div class="stack"><div class="s-tot" style="width:6.7%"></div>
+      <div class="s-par" style="width:4.1%"></div></div></td>
+      <td class="num">$1.2M</td>
+      <td class="num">$17k</td>
+      <td class="num dim">60.9%</td></tr></tbody></table>
+</section>
+
+<div class="cols">
+  <section style="margin-top:46px">
+    <h2>Region rollup</h2>
+    <table><thead><tr><th>Region</th><th>Accounts</th><th>Spend</th><th>Net rev</th>
+    <th>Win rate</th></tr></thead><tbody><tr><th scope="row">LATAM</th>
+  <td class="num">996</td><td class="num">$50.1M</td>
+  <td class="num">$774k</td><td class="num">33.6%</td></tr><tr><th scope="row">EMEA</th>
+  <td class="num">539</td><td class="num">$24.7M</td>
+  <td class="num">$389k</td><td class="num">32.3%</td></tr><tr><th scope="row">NORTAM</th>
+  <td class="num">420</td><td class="num">$22.1M</td>
+  <td class="num">$345k</td><td class="num">32.0%</td></tr></tbody></table>
+  </section>
+  <section style="margin-top:46px">
+    <h2>Currency exposure</h2>
+    <p class="sub">Share of monthly spend by billing currency.</p>
+    <div style="margin-top:12px"><div class="crow"><span class="ccode">USD</span>
+      <div class="ctrack"><div class="cbar" style="width:46.5%"></div></div>
+      <span class="cshare">17.9%</span>
+      <span class="cname">US dollar</span></div><div class="crow"><span class="ccode">BRL</span>
+      <div class="ctrack"><div class="cbar" style="width:45.2%"></div></div>
+      <span class="cshare">17.4%</span>
+      <span class="cname">Brazilian real</span></div><div class="crow"><span class="ccode">EUR</span>
+      <div class="ctrack"><div class="cbar" style="width:43.9%"></div></div>
+      <span class="cshare">16.9%</span>
+      <span class="cname">euro</span></div><div class="crow"><span class="ccode">MXN</span>
+      <div class="ctrack"><div class="cbar" style="width:41.6%"></div></div>
+      <span class="cshare">16.0%</span>
+      <span class="cname">Mexican peso</span></div><div class="crow"><span class="ccode">COP</span>
+      <div class="ctrack"><div class="cbar" style="width:26.3%"></div></div>
+      <span class="cshare">10.1%</span>
+      <span class="cname">Colombian peso</span></div><div class="crow"><span class="ccode">GBP</span>
+      <div class="ctrack"><div class="cbar" style="width:13.3%"></div></div>
+      <span class="cshare">5.1%</span>
+      <span class="cname">pound sterling</span></div><div class="crow"><span class="ccode">CAD</span>
+      <div class="ctrack"><div class="cbar" style="width:13.0%"></div></div>
+      <span class="cshare">5.0%</span>
+      <span class="cname">Canadian dollar</span></div><div class="crow"><span class="ccode">CLP</span>
+      <div class="ctrack"><div class="cbar" style="width:9.9%"></div></div>
+      <span class="cshare">3.8%</span>
+      <span class="cname">Chilean peso</span></div><div class="crow"><span class="ccode">ARS</span>
+      <div class="ctrack"><div class="cbar" style="width:6.5%"></div></div>
+      <span class="cshare">2.5%</span>
+      <span class="cname">Argentine peso</span></div><div class="crow"><span class="ccode">PEN</span>
+      <div class="ctrack"><div class="cbar" style="width:5.2%"></div></div>
+      <span class="cshare">2.0%</span>
+      <span class="cname">Peruvian sol</span></div><div class="crow"><span class="ccode">AED</span>
+      <div class="ctrack"><div class="cbar" style="width:5.2%"></div></div>
+      <span class="cshare">2.0%</span>
+      <span class="cname">UAE dirham</span></div><div class="crow"><span class="ccode">PLN</span>
+      <div class="ctrack"><div class="cbar" style="width:4.2%"></div></div>
+      <span class="cshare">1.6%</span>
+      <span class="cname">Polish zloty</span></div></div>
+  </section>
+</div>
+
+<section>
+  <h2>Performance by partner type</h2>
+  <p class="sub">The gap column shows how much each type's reading moves with the
+  definition. Where the gap is wide, it is the CRM hygiene that is worse, not
+  necessarily the partner.</p>
+  <table><thead><tr><th>Type</th><th>Referrals</th><th>Won</th><th>WR closed</th>
+  <th>WR conservative</th><th>Gap</th><th>Cycle</th><th>Spend</th></tr></thead>
+  <tbody><tr><th scope="row">Accounting firms</th>
+  <td class="num">1,604</td><td class="num">364</td>
+  <td class="num">31.1%</td><td class="num alt">25.7%</td>
+  <td class="num gap">+5.4</td><td class="num">107d</td>
+  <td class="num">$14.9M</td></tr><tr><th scope="row">Banks &amp; neobanks</th>
+  <td class="num">987</td><td class="num">253</td>
+  <td class="num">34.3%</td><td class="num alt">28.6%</td>
+  <td class="num gap">+5.7</td><td class="num">106d</td>
+  <td class="num">$10.0M</td></tr><tr><th scope="row">Insurance &amp; benefits brokers</th>
+  <td class="num">1,040</td><td class="num">249</td>
+  <td class="num">33.7%</td><td class="num alt">27.7%</td>
+  <td class="num gap">+6.0</td><td class="num">103d</td>
+  <td class="num">$9.8M</td></tr><tr><th scope="row">VC funds (portfolio)</th>
+  <td class="num">1,019</td><td class="num">239</td>
+  <td class="num">32.8%</td><td class="num alt">27.1%</td>
+  <td class="num gap">+5.7</td><td class="num">101d</td>
+  <td class="num">$7.4M</td></tr><tr><th scope="row">Marketplaces / embedded</th>
+  <td class="num">1,056</td><td class="num">243</td>
+  <td class="num">32.7%</td><td class="num alt">26.9%</td>
+  <td class="num gap">+5.8</td><td class="num">102d</td>
+  <td class="num">$6.2M</td></tr><tr><th scope="row">Consultancies / BPO</th>
+  <td class="num">794</td><td class="num">196</td>
+  <td class="num">33.0%</td><td class="num alt">27.6%</td>
+  <td class="num gap">+5.4</td><td class="num">114d</td>
+  <td class="num">$5.8M</td></tr></tbody></table>
+</section>
+
+<section>
+  <h2>Partner leaderboard</h2>
+  <p class="sub">Ranked by referral volume, which is what a partner controls.
+  Spend is what it actually produced.</p>
+  <table><thead><tr><th>Partner</th><th>Referrals</th><th>Won</th><th>Win rate</th>
+  <th>Spend</th></tr></thead><tbody><tr><th scope="row">Fleetone Partners
+  <span class="cur">Marketplaces / embedded</span></th>
+  <td class="num">223</td><td class="num">51</td>
+  <td class="num">32.7%</td><td class="num">$842k</td></tr><tr><th scope="row">Comercia Hub
+  <span class="cur">Marketplaces / embedded</span></th>
+  <td class="num">222</td><td class="num">56</td>
+  <td class="num">34.1%</td><td class="num">$1.8M</td></tr><tr><th scope="row">Corredores Del Sur
+  <span class="cur">Insurance &amp; benefits brokers</span></th>
+  <td class="num">221</td><td class="num">60</td>
+  <td class="num">38.2%</td><td class="num">$1.2M</td></tr><tr><th scope="row">Puerto Fund
+  <span class="cur">VC funds (portfolio)</span></th>
+  <td class="num">215</td><td class="num">43</td>
+  <td class="num">29.5%</td><td class="num">$1.8M</td></tr><tr><th scope="row">Andes Broker Group
+  <span class="cur">Insurance &amp; benefits brokers</span></th>
+  <td class="num">213</td><td class="num">41</td>
+  <td class="num">28.5%</td><td class="num">$2.0M</td></tr><tr><th scope="row">Logipar Network
+  <span class="cur">Marketplaces / embedded</span></th>
+  <td class="num">211</td><td class="num">49</td>
+  <td class="num">32.7%</td><td class="num">$1.7M</td></tr><tr><th scope="row">Cifra Partners
+  <span class="cur">Accounting firms</span></th>
+  <td class="num">210</td><td class="num">42</td>
+  <td class="num">27.8%</td><td class="num">$1.2M</td></tr><tr><th scope="row">Ribeira Advisory
+  <span class="cur">Consultancies / BPO</span></th>
+  <td class="num">210</td><td class="num">61</td>
+  <td class="num">37.7%</td><td class="num">$1.4M</td></tr><tr><th scope="row">Northwind Seed
+  <span class="cur">VC funds (portfolio)</span></th>
+  <td class="num">209</td><td class="num">69</td>
+  <td class="num">44.2%</td><td class="num">$1.7M</td></tr><tr><th scope="row">Cordillera Ventures
+  <span class="cur">VC funds (portfolio)</span></th>
+  <td class="num">207</td><td class="num">34</td>
+  <td class="num">23.8%</td><td class="num">$711k</td></tr><tr><th scope="row">Verde Contadores
+  <span class="cur">Accounting firms</span></th>
+  <td class="num">207</td><td class="num">43</td>
+  <td class="num">27.2%</td><td class="num">$1.3M</td></tr><tr><th scope="row">Nexo Contable
+  <span class="cur">Accounting firms</span></th>
+  <td class="num">206</td><td class="num">57</td>
+  <td class="num">39.3%</td><td class="num">$2.2M</td></tr></tbody></table>
+</section>
+
+<section>
+  <h2>Quota attainment, 2026 latest full quarter</h2>
+  <p class="sub">Measured in activated monthly spend, not bookings. The tick on each
+  bar marks 100%.</p>
+  <table><thead><tr><th>Rep</th><th>Quota</th><th>Actual</th><th>vs quota</th>
+  <th>Attainment</th></tr></thead><tbody><tr><th scope="row">julian.paez
+      <span class="cur">LATAM · 7 mo tenure</span></th>
+      <td class="num">$225k</td><td class="num">$440k</td>
+      <td class="barcell"><div class="stack"><div class="s-att over" style="width:100.0%"></div>
+      <div class="s-mark"></div></div></td>
+      <td class="num over">196.0%</td></tr><tr><th scope="row">sofia.beltran
+      <span class="cur">LATAM · 15 mo tenure</span></th>
+      <td class="num">$312k</td><td class="num">$601k</td>
+      <td class="barcell"><div class="stack"><div class="s-att over" style="width:100.0%"></div>
+      <div class="s-mark"></div></div></td>
+      <td class="num over">192.7%</td></tr><tr><th scope="row">marta.nowak
+      <span class="cur">EMEA · 17 mo tenure</span></th>
+      <td class="num">$360k</td><td class="num">$563k</td>
+      <td class="barcell"><div class="stack"><div class="s-att over" style="width:97.7%"></div>
+      <div class="s-mark"></div></div></td>
+      <td class="num over">156.3%</td></tr><tr><th scope="row">yasmin.haddad
+      <span class="cur">EMEA · 6 mo tenure</span></th>
+      <td class="num">$259k</td><td class="num">$403k</td>
+      <td class="barcell"><div class="stack"><div class="s-att over" style="width:97.2%"></div>
+      <div class="s-mark"></div></div></td>
+      <td class="num over">155.5%</td></tr><tr><th scope="row">diego.ferraz
+      <span class="cur">LATAM · 31 mo tenure</span></th>
+      <td class="num">$364k</td><td class="num">$555k</td>
+      <td class="barcell"><div class="stack"><div class="s-att over" style="width:95.2%"></div>
+      <div class="s-mark"></div></div></td>
+      <td class="num over">152.4%</td></tr><tr><th scope="row">grace.whitfield
+      <span class="cur">NORTAM · 30 mo tenure</span></th>
+      <td class="num">$476k</td><td class="num">$725k</td>
+      <td class="barcell"><div class="stack"><div class="s-att over" style="width:95.1%"></div>
+      <div class="s-mark"></div></div></td>
+      <td class="num over">152.2%</td></tr><tr><th scope="row">liam.oconnell
+      <span class="cur">EMEA · 11 mo tenure</span></th>
+      <td class="num">$348k</td><td class="num">$359k</td>
+      <td class="barcell"><div class="stack"><div class="s-att over" style="width:64.4%"></div>
+      <div class="s-mark"></div></div></td>
+      <td class="num over">103.1%</td></tr><tr><th scope="row">tom.hargreaves
+      <span class="cur">EMEA · 27 mo tenure</span></th>
+      <td class="num">$408k</td><td class="num">$347k</td>
+      <td class="barcell"><div class="stack"><div class="s-att mid" style="width:53.1%"></div>
+      <div class="s-mark"></div></div></td>
+      <td class="num mid">84.9%</td></tr><tr><th scope="row">rafael.dourado
+      <span class="cur">LATAM · 18 mo tenure</span></th>
+      <td class="num">$322k</td><td class="num">$270k</td>
+      <td class="barcell"><div class="stack"><div class="s-att mid" style="width:52.2%"></div>
+      <div class="s-mark"></div></div></td>
+      <td class="num mid">83.6%</td></tr><tr><th scope="row">dana.kowalczyk
+      <span class="cur">NORTAM · 5 mo tenure</span></th>
+      <td class="num">$294k</td><td class="num">$238k</td>
+      <td class="barcell"><div class="stack"><div class="s-att mid" style="width:50.6%"></div>
+      <div class="s-mark"></div></div></td>
+      <td class="num mid">80.9%</td></tr><tr><th scope="row">camila.restrepo
+      <span class="cur">LATAM · 30 mo tenure</span></th>
+      <td class="num">$364k</td><td class="num">$279k</td>
+      <td class="barcell"><div class="stack"><div class="s-att mid" style="width:47.9%"></div>
+      <div class="s-mark"></div></div></td>
+      <td class="num mid">76.7%</td></tr><tr><th scope="row">ana.lucia.mtz
+      <span class="cur">LATAM · 25 mo tenure</span></th>
+      <td class="num">$343k</td><td class="num">$198k</td>
+      <td class="barcell"><div class="stack"><div class="s-att low" style="width:36.0%"></div>
+      <div class="s-mark"></div></div></td>
+      <td class="num low">57.6%</td></tr><tr><th scope="row">peter.nakamura
+      <span class="cur">NORTAM · 17 mo tenure</span></th>
+      <td class="num">$422k</td><td class="num">$141k</td>
+      <td class="barcell"><div class="stack"><div class="s-att low" style="width:20.8%"></div>
+      <div class="s-mark"></div></div></td>
+      <td class="num low">33.3%</td></tr></tbody></table>
+  <p class="sub" style="margin-top:20px">Average attainment by tenure. The ramp is
+  the reason a hiring plan cannot be read off headcount alone.</p>
+  <div class="flow"><div class="node"><b>80.9%</b>
+  <span>0-6 months · 1 reps</span></div><div class="node"><b>151.5%</b>
+  <span>6-12 months · 3 reps</span></div><div class="node"><b>116.5%</b>
+  <span>1-2 years · 4 reps</span></div><div class="node"><b>104.8%</b>
+  <span>2+ years · 5 reps</span></div></div>
+</section>
+
+<div class="cols">
+  <section style="margin-top:46px">
+    <h2>By segment</h2>
+    <table><thead><tr><th>Segment</th><th>Refs</th><th>WR</th><th>Cycle</th>
+    <th>Per account</th><th>Spend</th></tr></thead><tbody><tr><th scope="row">Startup</th>
+  <td class="num">2,169</td><td class="num">30.4%</td>
+  <td class="num">107d</td><td class="num">$5k</td>
+  <td class="num">$1.7M</td></tr><tr><th scope="row">SMB</th>
+  <td class="num">2,743</td><td class="num">33.9%</td>
+  <td class="num">101d</td><td class="num">$20k</td>
+  <td class="num">$9.5M</td></tr><tr><th scope="row">Mid-Market</th>
+  <td class="num">1,453</td><td class="num">33.5%</td>
+  <td class="num">107d</td><td class="num">$87k</td>
+  <td class="num">$20.4M</td></tr><tr><th scope="row">Enterprise</th>
+  <td class="num">450</td><td class="num">37.1%</td>
+  <td class="num">108d</td><td class="num">$298k</td>
+  <td class="num">$22.6M</td></tr></tbody></table>
+  </section>
+  <section style="margin-top:46px">
+    <h2>By product line</h2>
+    <table><thead><tr><th>Product</th><th>Accounts</th><th>Spend</th><th>Net rev</th>
+    <th>Take</th></tr></thead><tbody><tr><th scope="row">Corporate cards</th>
+  <td class="num">604</td><td class="num">$29.2M</td>
+  <td class="num">$443k</td><td class="num alt">1.51%</td></tr><tr><th scope="row">Cards + cross-border payments</th>
+  <td class="num">321</td><td class="num">$15.2M</td>
+  <td class="num">$249k</td><td class="num alt">1.64%</td></tr><tr><th scope="row">Cards + credit line</th>
+  <td class="num">189</td><td class="num">$9.7M</td>
+  <td class="num">$156k</td><td class="num alt">1.61%</td></tr></tbody></table>
+  </section>
+</div>
+
+<section>
+  <h2>Why referrals are lost</h2>
+  <p class="sub">The largest bar should worry the team: a loss with no reason
+  recorded cannot be coached, and cannot be fed back to the partner who sent it.</p>
+  <div class="frow"><div class="flabel ">Unresponsive</div>
+      <div class="ftrack"><div class="fbar " style="width:100.0%"></div></div>
+      <div class="fval">487</div></div><div class="frow"><div class="flabel ">Country not supported</div>
+      <div class="ftrack"><div class="fbar " style="width:99.6%"></div></div>
+      <div class="fval">485</div></div><div class="frow"><div class="flabel ">Pricing</div>
+      <div class="ftrack"><div class="fbar " style="width:96.1%"></div></div>
+      <div class="fval">468</div></div><div class="frow"><div class="flabel ">Failed underwriting</div>
+      <div class="ftrack"><div class="fbar " style="width:95.5%"></div></div>
+      <div class="fval">465</div></div><div class="frow"><div class="flabel ">No budget / not now</div>
+      <div class="ftrack"><div class="fbar " style="width:93.8%"></div></div>
+      <div class="fval">457</div></div><div class="frow"><div class="flabel ">Compliance / KYB docs</div>
+      <div class="ftrack"><div class="fbar " style="width:89.5%"></div></div>
+      <div class="fval">436</div></div><div class="frow"><div class="flabel ">Went with competitor</div>
+      <div class="ftrack"><div class="fbar " style="width:87.7%"></div></div>
+      <div class="fval">427</div></div><div class="frow"><div class="flabel nr">Not recorded</div>
+      <div class="ftrack"><div class="fbar nr" style="width:18.1%"></div></div>
+      <div class="fval">88</div></div>
+</section>
+
+<section>
+  <h2>What the cleanup engine found</h2>
+  <p class="sub">Of 12,180 raw deal rows, 776 left the reportable
+  universe and 11,404 remained. Quarantining a deal also removes its
+  spend history: 1,414 account-months and
+  $48.8M of spend came out with them. Nothing is dropped silently
+  — every affected row keeps the rule that touched it.</p>
+  <ul class="ledger"><li class="led q"><div class="led-h">
+      <span class="led-r">R01 Test record</span><span class="led-n">190</span></div>
+      <div class="led-a">quarantined</div><p>Name matches the test-pattern dictionary</p></li><li class="led q"><div class="led-h">
+      <span class="led-r">R02 Duplicate deal</span><span class="led-n">180</span></div>
+      <div class="led-a">quarantined</div><p>Same account, amount and country entered &lt;=7 days apart</p></li><li class="led c"><div class="led-h">
+      <span class="led-r">R03 Stage vs closed flag</span><span class="led-n">175</span></div>
+      <div class="led-a">corrected</div><p>dealstage wins over hs_is_closed_won; the flag was rewritten</p></li><li class="led q"><div class="led-h">
+      <span class="led-r">R04 Won with no amount</span><span class="led-n">150</span></div>
+      <div class="led-a">quarantined</div><p>Closed Won with amount &lt;= 0: cannot enter the revenue numerator</p></li><li class="led c"><div class="led-h">
+      <span class="led-r">R05 FX not applied</span><span class="led-n">213</span></div>
+      <div class="led-a">corrected</div><p>Reconverted using the reference FX table; original value retained</p></li><li class="led c"><div class="led-h">
+      <span class="led-r">R06 USD amount blank</span><span class="led-n">220</span></div>
+      <div class="led-a">corrected</div><p>Derived amount_in_home_currency from the local amount</p></li><li class="led f"><div class="led-h">
+      <span class="led-r">R07 Currency vs country</span><span class="led-n">138</span></div>
+      <div class="led-a">flagged</div><p>May be legitimate (client bills in USD): flagged, not corrected</p></li><li class="led q"><div class="led-h">
+      <span class="led-r">R08 Close date before create date</span><span class="led-n">256</span></div>
+      <div class="led-a">quarantined</div><p>Impossible date: breaks every sales-cycle calculation</p></li><li class="led f"><div class="led-h">
+      <span class="led-r">R09 Stale open deal</span><span class="led-n">1,970</span></div>
+      <div class="led-a">flagged</div><p>Open for more than 180 days; reported separately from live pipeline</p></li><li class="led c"><div class="led-h">
+      <span class="led-r">R10 Partner name not normalized</span><span class="led-n">1,634</span></div>
+      <div class="led-a">corrected</div><p>Unified spacing, casing and legal suffixes</p></li><li class="led f"><div class="led-h">
+      <span class="led-r">R11 Unattributed partnership</span><span class="led-n">315</span></div>
+      <div class="led-a">flagged</div><p>Enters the channel but cannot be attributed to a partner</p></li><li class="led f"><div class="led-h">
+      <span class="led-r">R12 No owner assigned</span><span class="led-n">310</span></div>
+      <div class="led-a">flagged</div><p>Without an owner there is no accountability and no attainment calculation</p></li><li class="led f"><div class="led-h">
+      <span class="led-r">R13 Lost with no reason</span><span class="led-n">140</span></div>
+      <div class="led-a">flagged</div><p>Closed Lost with no reason: the loss cannot be coached or fed back to the partner</p></li><li class="led f"><div class="led-h">
+      <span class="led-r">R14 Limit outside segment band</span><span class="led-n">95</span></div>
+      <div class="led-a">flagged</div><p>Approved limit outside the plausible band for its segment</p></li><li class="led q"><div class="led-h">
+      <span class="led-r">R15 Orphaned usage row</span><span class="led-n">1,414</span></div>
+      <div class="led-a">quarantined</div><p>Monthly spend tied to a deal that failed validation</p></li></ul>
+</section>
+
+<section>
+  <h2>What I would ask before building this for real</h2>
+  <p class="sub">A dashboard inherits the decisions nobody made. These four are still
+  open, and each one moves every number above.</p>
+  <ul class="ledger">
+    <li class="led f"><div class="led-h"><span class="led-r">Win rate definition</span></div>
+      <div class="led-a">a business decision, not a data one</div>
+      <p>After how many days does an open referral count as lost? Without that rule
+      every function reports a different number and all of them are right.</p></li>
+    <li class="led f"><div class="led-h"><span class="led-r">Channel attribution</span></div>
+      <div class="led-a">315 cases with no partner</div>
+      <p>If a partner refers and the client closes through direct sales three months
+      later, whose deal is it? The answer decides whether the channel looks
+      profitable.</p></li>
+    <li class="led f"><div class="led-h"><span class="led-r">FX timing</span></div>
+      <div class="led-a">12 currencies</div>
+      <p>Convert at the deal-date rate or the month-end rate? In COP, ARS and BRL the
+      difference is material, and it is not an accounting detail.</p></li>
+    <li class="led f"><div class="led-h"><span class="led-r">What a partner is paid on</span></div>
+      <div class="led-a">referrals, activations or spend</div>
+      <p>Paying on referrals rewards volume, on activations rewards quality, on spend
+      rewards patience. The cohort table above argues for the third.</p></li>
+  </ul>
+</section>
+
+<footer>
+  Built on synthetic data generated for this exercise: 11,404 deals,
+  26,060 account-months, 17 countries,
+  12 currencies. Cleanup engine in Python, fifteen rules, auditable
+  output. This HTML mirrors the structure I would carry into Tableau or Power BI.
+</footer>
+</div></body></html>

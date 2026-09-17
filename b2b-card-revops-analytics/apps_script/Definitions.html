@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#07070A;--panel:#111015;--line:#242229;--line2:#1a181f;
+--gold:#E0B65C;--gold-d:#8E7236;--txt:#EDEAE3;--dim:#8C877E;
+--teal:#5F9E97;--clay:#C0603B;--f:"Helvetica Neue",Helvetica,Arial,sans-serif;
+--mono:"SF Mono",Menlo,Consolas,monospace}
+body{background:var(--ink);color:var(--txt);font-family:var(--f);font-size:14px;
+line-height:1.55;padding:22px 24px 60px}
+.mast{border-bottom:1px solid var(--line);padding-bottom:14px}
+.brand{font-size:17px;font-weight:700;letter-spacing:.14em;color:var(--gold)}
+h1{font-size:19px;font-weight:600;margin-top:5px}
+.sub{color:var(--dim);font-size:12.5px;max-width:74ch;margin-top:5px}
+.live{display:inline-block;margin-top:10px;font-size:11.5px;color:var(--teal);
+border:1px solid #21403D;background:#0D1716;border-radius:2px;padding:4px 9px}
+h2{font-size:13px;font-weight:600;color:var(--gold);margin:34px 0 2px;
+padding-bottom:6px;border-bottom:1px solid var(--line)}
+.m{background:var(--panel);border:1px solid var(--line);border-radius:2px;
+padding:14px 15px;margin-top:10px}
+.m h3{font-size:15px;font-weight:600}
+.where{font-size:11px;color:var(--dim);margin-top:2px}
+.plain{font-size:13.5px;margin-top:8px}
+.row{display:grid;grid-template-columns:96px 1fr;gap:12px;margin-top:9px;
+font-size:12.5px;align-items:baseline}
+.lbl{color:var(--dim);font-size:11.5px}
+.fx{font-family:var(--mono);font-size:12px;color:var(--teal);
+background:#0D1210;border:1px solid #1C2624;border-radius:2px;padding:6px 9px}
+.src{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.dec{margin-top:10px;padding:9px 11px;background:#15100A;
+border-left:2px solid var(--gold-d);border-radius:0 2px 2px 0}
+.dec .lbl{color:var(--gold);font-weight:600;display:block;margin-bottom:3px}
+.dec p{font-size:12.5px;color:#C9BBA0}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:12px;color:var(--dim)}
+</style>
+</head>
+<body>
+
+<div class="mast">
+  <div class="brand">VANTIS</div>
+  <h1>How every metric is calculated</h1>
+  <div class="sub">What each number means, the formula behind it, which tables it
+  comes from, and — where it applies — the business decision it rests on. The
+  numbers in these definitions are read live from the <b>parametros</b> tab, so
+  this page never drifts from the code it describes.</div>
+  <div class="live" id="live"></div>
+</div>
+
+<div id="app"></div>
+
+<footer>
+  A definition that lives only in someone's head is a disagreement waiting to
+  happen. Menu: <b>RevOps → Write metric dictionary to a tab</b> puts all of this
+  in a sheet anyone can read without opening the script.
+</footer>
+
+<script>
+const DEFS = <?!= JSON.stringify(defs) ?>;
+const REFS = <?!= JSON.stringify(refs) ?>;
+
+function esc(s){
+  return String(s === null || s === undefined ? '' : s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+document.getElementById('live').innerHTML =
+  'Currently in force: stale threshold <b>' + REFS.stale + ' days</b> &middot; ' +
+  'duplicate window <b>' + REFS.dup + ' days</b> &middot; ' +
+  'interchange <b>' + (REFS.rates.INTERCHANGE * 100).toFixed(2) + '%</b> &middot; ' +
+  'FX spread <b>' + (REFS.rates.FX_SPREAD * 100).toFixed(2) + '%</b> &middot; ' +
+  'financing <b>' + (REFS.rates.FIN_YIELD * 100).toFixed(2) + '%</b>/mo &middot; ' +
+  'cost <b>' + (REFS.rates.COST * 100).toFixed(2) + '%</b>';
+
+let H = '';
+DEFS.forEach(d => {
+  if (d.group) { H += '<h2>' + esc(d.group) + '</h2>'; return; }
+  H += '<div class="m"><h3>' + esc(d.name) + '</h3>' +
+    '<div class="where">appears in ' + esc(d.sheet) + '</div>' +
+    '<div class="plain">' + esc(d.plain) + '</div>' +
+    '<div class="row"><span class="lbl">Formula</span>' +
+    '<span class="fx">' + esc(d.formula) + '</span></div>' +
+    '<div class="row"><span class="lbl">Source</span>' +
+    '<span class="src">' + esc(d.source) + '</span></div>' +
+    (d.decision
+      ? '<div class="dec"><span class="lbl">Business decision behind it</span>' +
+        '<p>' + esc(d.decision) + '</p></div>'
+      : '') +
+    '</div>';
+});
+document.getElementById('app').innerHTML = H;
+</script>
+</body>
+</html>

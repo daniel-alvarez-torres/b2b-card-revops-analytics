@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#07070A;--panel:#111015;--line:#242229;--line2:#1a181f;
+--gold:#E0B65C;--gold-d:#8E7236;--txt:#EDEAE3;--dim:#8C877E;
+--teal:#5F9E97;--clay:#C0603B;--f:"Helvetica Neue",Helvetica,Arial,sans-serif}
+body{background:var(--ink);color:var(--txt);font-family:var(--f);font-size:14px;
+line-height:1.5;font-variant-numeric:tabular-nums;padding:22px 24px 60px}
+h2{font-size:15px;font-weight:600;margin-bottom:4px}
+.sub{color:var(--dim);font-size:12.5px;max-width:66ch}
+section{margin-top:40px}
+.num{text-align:right}.dim{color:var(--dim)}.alt{color:var(--teal)}.gap{color:var(--clay)}
+.mast{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;
+flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:16px}
+.brand{font-size:18px;font-weight:700;letter-spacing:.14em;color:var(--gold)}
+.role{font-size:12.5px;color:var(--dim);margin-top:3px}
+.synth{border:1px solid var(--clay);color:#E0A183;padding:5px 9px;font-size:11px;
+max-width:240px;border-radius:2px}
+.hero{margin-top:26px;border:1px solid var(--line);background:var(--panel);border-radius:3px}
+.hero-top{padding:20px 20px 4px}
+.hero-q{font-size:19px;font-weight:600;line-height:1.3;max-width:32ch}
+.hero-q em{font-style:normal;color:var(--gold)}
+.duo{display:flex;flex-wrap:wrap}
+.pane{flex:1 1 230px;padding:18px 20px 22px}
+.pane+.pane{border-left:1px solid var(--line)}
+.big{font-size:52px;font-weight:300;line-height:1}
+.pane.a .big{color:var(--gold)}.pane.b .big{color:var(--teal)}
+.pane h3{font-size:13px;font-weight:600;margin:8px 0 5px}
+.pane p{font-size:12px;color:var(--dim)}
+.bridge{border-top:1px solid var(--line);background:#0C0B0F;padding:12px 20px;
+font-size:12.5px;color:var(--dim)}.bridge b{color:var(--txt)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;
+background:var(--line);border:1px solid var(--line);margin-top:1px}
+.kpi{background:var(--panel);padding:14px 15px}
+.kpi .v{font-size:23px;font-weight:400}
+.kpi .k{font-size:11.5px;color:var(--dim);margin-top:3px}
+.rb-row{display:grid;grid-template-columns:200px 1fr 92px;gap:12px;align-items:center;
+padding:7px 0;border-bottom:1px solid var(--line2);font-size:13px}
+.rb-t{height:9px;background:#17161B}.rb-b{height:100%}
+.rb-row.up .rb-b{background:var(--gold)}.rb-row.down .rb-b{background:var(--clay)}
+.rb-row.tot .rb-b{background:var(--teal)}.rb-row.tot{font-weight:600;border-bottom:0}
+.rb-base{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;
+border-bottom:1px solid var(--line)}.rb-base b{font-size:21px;font-weight:400}
+.trend{display:flex;gap:2px;align-items:flex-end;height:170px;margin-top:14px}
+.tcol{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%}
+.tstack{flex:1;display:flex;flex-direction:column;justify-content:flex-end}
+.tp{background:var(--gold)}.td{background:var(--gold-d)}
+.tq{font-size:9.5px;color:var(--dim);text-align:center;margin-top:5px;white-space:nowrap}
+.legend{display:flex;gap:16px;font-size:11.5px;color:var(--dim);margin-top:9px}
+.sw{display:inline-block;width:10px;height:10px;margin-right:5px;vertical-align:-1px}
+.frow{display:grid;grid-template-columns:186px 1fr 130px;gap:12px;align-items:center;
+padding:7px 0;border-bottom:1px solid var(--line2)}
+.flabel{font-size:12.5px}.flabel.nr{color:var(--clay)}
+.ftrack{height:9px;background:#17161B}
+.fbar{height:100%;background:linear-gradient(90deg,var(--gold-d),var(--gold))}
+.fbar.nr{background:var(--clay)}
+.fval{text-align:right;font-size:13px}
+.step{display:block;font-size:10.5px;color:var(--dim)}
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
+thead th{font-size:11px;color:var(--dim);font-weight:500;text-align:right;
+padding:0 0 7px;border-bottom:1px solid var(--line)}
+thead th:first-child{text-align:left}
+tbody th{text-align:left;font-weight:500;padding:8px 8px 8px 0;border-bottom:1px solid var(--line2)}
+tbody td{padding:8px 0 8px 12px;border-bottom:1px solid var(--line2)}
+.cur{display:block;font-size:10.5px;color:var(--dim);font-weight:400}
+.barcell{width:20%;min-width:70px}
+.stack{position:relative;height:9px;background:#17161B}
+.s-tot{position:absolute;inset:0 auto 0 0;background:var(--gold-d)}
+.s-par{position:absolute;inset:0 auto 0 0;background:var(--gold)}
+.s-att{position:absolute;inset:0 auto 0 0}
+.s-att.over{background:var(--teal)}.s-att.mid{background:var(--gold)}
+.s-att.low{background:var(--clay)}
+.s-mark{position:absolute;top:-2px;bottom:-2px;left:62.5%;width:1px;background:#4A4750}
+.over{color:var(--teal)}.low{color:var(--clay)}
+.heat{text-align:center;padding:6px 4px;font-size:11.5px;color:#0B0A0D;font-weight:600;
+border-bottom:1px solid var(--ink)}
+.crow{display:grid;grid-template-columns:42px 1fr 46px 1fr;gap:10px;align-items:center;
+padding:5px 0;border-bottom:1px solid var(--line2);font-size:12.5px}
+.ccode{font-weight:600}.ctrack{height:8px;background:#17161B}
+.cbar{height:100%;background:var(--gold)}.cshare{text-align:right}
+.cname{color:var(--dim);font-size:11.5px}
+.ledger{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));
+gap:10px;margin-top:12px}
+.led{background:var(--panel);border:1px solid var(--line);border-left-width:3px;
+padding:11px 12px;border-radius:2px}
+.led.q{border-left-color:var(--clay)}.led.c{border-left-color:var(--teal)}
+.led.f{border-left-color:var(--gold)}
+.led-h{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.led-r{font-size:12.5px;font-weight:600}.led-n{font-size:16px}
+.led-a{font-size:11px;color:var(--dim);margin:1px 0 5px}
+.led p{font-size:11.5px;color:var(--dim)}
+.flow{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-top:12px;font-size:12.5px}
+.node{border:1px solid var(--line);background:var(--panel);padding:8px 12px;border-radius:2px}
+.node b{display:block;font-size:16px;font-weight:400}
+.node span{font-size:11px;color:var(--dim)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+footer{margin-top:48px;padding-top:16px;border-top:1px solid var(--line);
+font-size:11.5px;color:var(--dim)}
+@media(max-width:780px){.cols{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="mast">
+  <div>
+    <div class="brand">VANTIS</div>
+    <div class="role">Partnerships channel &middot; RevOps analytics</div>
+  </div>
+  <div class="synth" id="synth"></div>
+</div>
+
+<div id="app"></div>
+
+<footer id="foot"></footer>
+
+<script>
+const D = <?!= JSON.stringify(data) ?>;
+const K = D.kpi;
+
+/**
+ * Percentages. The formula layer returns full float precision
+ * (32.93522267206478), so rounding happens at the display edge rather than in
+ * the sheet: the cell keeps its precision, the reader gets a number they can
+ * say out loud.
+ */
+function pc(x, d){
+  const n = Number(x);
+  if (!isFinite(n)) return '—';
+  return n.toFixed(d === undefined ? 1 : d) + '%';
+}
+function nInt(x){
+  const n = Number(x);
+  return isFinite(n) ? Math.round(n).toLocaleString('en-US') : '—';
+}
+function nDec(x, d){
+  const n = Number(x);
+  return isFinite(n) ? n.toFixed(d === undefined ? 1 : d) : '—';
+}
+
+function usd(x, d){
+  d = (d === undefined) ? 1 : d;
+  const n = Math.abs(Number(x) || 0), s = Number(x) < 0 ? '-' : '';
+  if (n >= 1e6) return s + '$' + (n/1e6).toFixed(d) + 'M';
+  if (n >= 1e3) return s + '$' + Math.round(n/1e3) + 'k';
+  return s + '$' + Math.round(n).toLocaleString('en-US');
+}
+function esc(s){
+  return String(s === null || s === undefined ? '' : s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function mlbl(m){
+  const p = String(m).split('-');
+  return MON[Number(p[1]) - 1] + ' ' + p[0].slice(2);
+}
+function maxOf(arr, f){ return arr.reduce((m, r) => Math.max(m, f(r) || 0), 0); }
+
+document.getElementById('synth').innerHTML =
+  'Synthetic data. No figure comes from Vantis. ' +
+  nInt(K['Deals in reportable universe']) + ' deals and ' +
+  nInt(K['Account-months']) +
+  ' account-months behind these views.';
+
+const H = [];
+
+// ---------------- hero ----------------
+H.push(
+  '<div class="hero"><div class="hero-top"><div class="hero-q">' +
+  'The same quarter has <em>two defensible win rates</em>. Before building the ' +
+  'dashboard, someone has to decide which one gets reported.</div></div><div class="duo">' +
+  '<div class="pane a"><div class="big">' + pc(K['Win rate, closed only %']) + '</div>' +
+  '<h3>Against closed deals only</h3><p>Denominator: won plus lost. This is what the ' +
+  'CRM returns by default and what almost always reaches leadership.</p></div>' +
+  '<div class="pane b"><div class="big">' + pc(K['Win rate, conservative %']) + '</div>' +
+  '<h3>Counting abandoned deals</h3><p>Adds the ' +
+  nInt(K['Stale open referrals']) +
+  ' referrals open past the stale threshold that nobody marked lost.</p></div></div>' +
+  '<div class="bridge">The gap is <b>' + nDec(K['Win rate gap, points']) + ' points</b>. ' +
+  'If a partner is evaluated on the first number while the credit team plans on the ' +
+  'second, the two functions are looking at different businesses.</div></div>');
+
+// ---------------- kpis ----------------
+const KPI = [
+  [usd(K['Card spend, partnerships']), 'Card spend, ' + K['Reference month']],
+  [usd(K['Modelled net revenue']), 'Modelled net revenue'],
+  [pc(K['Net take rate on spend %'], 2), 'Net take rate on spend'],
+  [nInt(K['Accounts transacting']), 'Accounts transacting'],
+  [usd(K['Approved limit in live pipeline']),
+   'Limit in live pipeline (' + nInt(K['Live deals']) + ' deals)'],
+  [nInt(K['Median days referral to close']) + 'd', 'Median referral to close'],
+  [pc(K['Share of deals via partners %']), 'Of all deals via partners']
+];
+H.push('<div class="kpis">' + KPI.map(k =>
+  '<div class="kpi"><div class="v">' + k[0] + '</div><div class="k">' + k[1] +
+  '</div></div>').join('') + '</div>');
+
+// ---------------- revenue build ----------------
+const rbMax = maxOf(D.revenue.filter(r => r.type !== 'base'), r => Math.abs(r.usd));
+let rb = '';
+D.revenue.forEach(r => {
+  if (r.type === 'base') {
+    rb += '<div class="rb-base"><span>' + esc(r.line) + '</span><b>' + usd(r.usd) + '</b></div>';
+  } else {
+    rb += '<div class="rb-row ' + r.type + '"><div>' + esc(r.line) + '</div>' +
+      '<div class="rb-t"><div class="rb-b" style="width:' +
+      (Math.abs(r.usd) / rbMax * 100).toFixed(1) + '%"></div></div>' +
+      '<div class="num">' + usd(r.usd) + '</div></div>';
+  }
+});
+H.push('<section><h2>Where the revenue actually comes from</h2><p class="sub">' +
+  'Nothing here is billed to the client. Revenue is a take rate on what the account ' +
+  'spends, so the chain has to end in volume, not in signature.</p>' + rb + '</section>');
+
+// ---------------- trend ----------------
+const tMax = maxOf(D.trend, r => Number(r.total_usd));
+let tr = '';
+D.trend.forEach((t, i) => {
+  const show = (D.trend.length - 1 - i) % 3 === 0;
+  tr += '<div class="tcol" title="' + mlbl(t.month) + ': ' + usd(t.total_usd) + '">' +
+    '<div class="tstack"><div class="td" style="height:' +
+    (Number(t.direct_usd) / tMax * 100).toFixed(1) + '%"></div>' +
+    '<div class="tp" style="height:' +
+    (Number(t.partnerships_usd) / tMax * 100).toFixed(1) + '%"></div></div>' +
+    '<div class="tq">' + (show ? mlbl(t.month) : '&nbsp;') + '</div></div>';
+});
+H.push('<section><h2>Card spend by month</h2><p class="sub">The channel compounds ' +
+  'because activated accounts keep spending, not because new deals keep closing.</p>' +
+  '<div class="trend">' + tr + '</div><div class="legend">' +
+  '<span><span class="sw" style="background:var(--gold)"></span>Partnerships</span>' +
+  '<span><span class="sw" style="background:var(--gold-d)"></span>Direct</span></div></section>');
+
+// ---------------- funnel ----------------
+const fMax = Number(D.funnel[0].deals);
+let fn = '';
+D.funnel.forEach((f, i) => {
+  fn += '<div class="frow"><div class="flabel">' + esc(f.stage) + '</div>' +
+    '<div class="ftrack"><div class="fbar" style="width:' +
+    (Number(f.deals) / fMax * 100).toFixed(1) + '%"></div></div>' +
+    '<div class="fval">' + nInt(f.deals) +
+    (i ? '<span class="step">' + pc(f.conv_from_prior_pct) + ' of prior &middot; ' +
+      pc(f.pct_of_top) + ' of top</span>' : '') + '</div></div>';
+});
+H.push('<section><h2>Channel funnel</h2><p class="sub">Underwriting is where most ' +
+  'referrals fall out. It is the one step the rep does not control.</p>' + fn + '</section>');
+
+// ---------------- cohorts ----------------
+const ks = [];
+for (let k = 0; k <= 12; k++) ks.push('M' + k);
+let ch = '<table><thead><tr><th>Cohort</th>' +
+  ks.map(k => '<th>' + k + '</th>').join('') + '</tr></thead><tbody>';
+D.cohorts.forEach(c => {
+  ch += '<tr><th>' + esc(c.cohort) + '<span class="cur">' + c.accounts +
+    ' accounts</span></th>';
+  ks.forEach(k => {
+    const v = c[k];
+    if (v === '' || v === null || v === undefined) { ch += '<td></td>'; return; }
+    const o = Math.max(0.10, Math.min(1, Number(v) / 135));
+    ch += '<td class="heat" style="background:rgba(224,182,92,' + o.toFixed(2) + ')">' +
+      nInt(v) + '</td>';
+  });
+  ch += '</tr>';
+});
+ch += '</tbody></table>';
+H.push('<section><h2>Spend retention by activation cohort</h2><p class="sub">' +
+  'Average monthly spend per surviving account, indexed to its first month. Above 100 ' +
+  'means accounts spend more than they did at activation. This is the number that ' +
+  'decides whether a partner is worth its commission.</p>' + ch + '</section>');
+
+// ---------------- markets ----------------
+const mMax = maxOf(D.markets, r => Number(r.spend_usd));
+let mk = '';
+D.markets.forEach(m => {
+  const w = Number(m.spend_usd) / mMax * 100;
+  mk += '<tr><th>' + esc(m.country) + '<span class="cur">' + esc(m.currency) +
+    ' &middot; ' + esc(m.region) + '</span></th>' +
+    '<td class="num">' + nInt(m.accounts) + '</td>' +
+    '<td class="barcell"><div class="stack"><div class="s-tot" style="width:' +
+    w.toFixed(1) + '%"></div><div class="s-par" style="width:' +
+    (w * Number(m.partner_share_pct) / 100).toFixed(1) + '%"></div></div></td>' +
+    '<td class="num">' + usd(m.spend_usd) + '</td>' +
+    '<td class="num">' + usd(m.net_revenue_usd) + '</td>' +
+    '<td class="num dim">' + pc(m.partner_share_pct) + '</td></tr>';
+});
+H.push('<section><h2>Markets</h2><p class="sub">' + K['Countries'] + ' countries, ' +
+  K['Currencies'] + ' currencies. Each amount is converted using the deal\'s own rate, ' +
+  'not one month-end rate. The lighter bar is the share partners bring in.</p>' +
+  '<table><thead><tr><th>Country</th><th>Accounts</th><th></th><th>Spend</th>' +
+  '<th>Net rev</th><th>Via partners</th></tr></thead><tbody>' + mk +
+  '</tbody></table></section>');
+
+// ---------------- currencies ----------------
+let cu = '';
+D.currencies.forEach(c => {
+  cu += '<div class="crow"><span class="ccode">' + esc(c.currency) + '</span>' +
+    '<div class="ctrack"><div class="cbar" style="width:' +
+    Math.min(100, Number(c.share_pct) * 2.6).toFixed(1) + '%"></div></div>' +
+    '<span class="cshare">' + pc(c.share_pct) + '</span>' +
+    '<span class="cname">' + esc(c.name) + '</span></div>';
+});
+H.push('<section><h2>Currency exposure</h2><p class="sub">Share of monthly spend by ' +
+  'billing currency.</p><div style="margin-top:10px">' + cu + '</div></section>');
+
+// ---------------- partner types ----------------
+let pt = '';
+D.ptypes.forEach(t => {
+  pt += '<tr><th>' + esc(t.partner_type) + '</th>' +
+    '<td class="num">' + Number(t.referrals).toLocaleString('en-US') + '</td>' +
+    '<td class="num">' + nInt(t.won) + '</td><td class="num">' + pc(t.wr_closed_pct) + '</td>' +
+    '<td class="num alt">' + pc(t.wr_conservative_pct) + '</td>' +
+    '<td class="num gap">' + nDec(t.gap_points) + '</td>' +
+    '<td class="num">' + nInt(t.median_cycle_days) + 'd</td>' +
+    '<td class="num">' + usd(t.spend_usd) + '</td></tr>';
+});
+H.push('<section><h2>Performance by partner type</h2><p class="sub">The gap column ' +
+  'shows how much each type\'s reading moves with the definition. Where the gap is ' +
+  'wide, it is the CRM hygiene that is worse, not necessarily the partner.</p>' +
+  '<table><thead><tr><th>Type</th><th>Referrals</th><th>Won</th><th>WR closed</th>' +
+  '<th>WR conservative</th><th>Gap</th><th>Cycle</th><th>Spend</th></tr></thead><tbody>' +
+  pt + '</tbody></table></section>');
+
+// ---------------- partner leaderboard ----------------
+let pb = '';
+D.partners.forEach(p => {
+  pb += '<tr><th>' + esc(p.partner) + '<span class="cur">' + esc(p.type) + '</span></th>' +
+    '<td class="num">' + nInt(p.referrals) + '</td><td class="num">' + nInt(p.won) + '</td>' +
+    '<td class="num">' + pc(p.wr_closed_pct) + '</td>' +
+    '<td class="num">' + usd(p.spend_usd) + '</td></tr>';
+});
+H.push('<section><h2>Partner leaderboard</h2><p class="sub">Ranked by referral volume, ' +
+  'which is what a partner controls. Spend is what it actually produced.</p>' +
+  '<table><thead><tr><th>Partner</th><th>Referrals</th><th>Won</th><th>Win rate</th>' +
+  '<th>Spend</th></tr></thead><tbody>' + pb + '</tbody></table></section>');
+
+// ---------------- attainment ----------------
+let at = '';
+D.attainment.forEach(a => {
+  const v = Number(a.attainment_pct);
+  const cls = v >= 100 ? 'over' : (v >= 70 ? 'mid' : 'low');
+  at += '<tr><th>' + esc(a.owner) + '<span class="cur">' + esc(a.region) +
+    ' &middot; ' + nInt(a.tenure_months) + ' mo tenure</span></th>' +
+    '<td class="num">' + usd(a.quota_monthly_usd) + '</td>' +
+    '<td class="num">' + usd(a.actual_monthly_usd) + '</td>' +
+    '<td class="barcell"><div class="stack"><div class="s-att ' + cls +
+    '" style="width:' + (Math.min(v, 160) / 160 * 100).toFixed(1) + '%"></div>' +
+    '<div class="s-mark"></div></div></td>' +
+    '<td class="num ' + cls + '">' + pc(v) + '</td></tr>';
+});
+const rp = D.ramp.map(r => '<div class="node"><b>' + pc(r.avg_attainment_pct) + '</b><span>' +
+  esc(r.tenure_bucket) + ' &middot; ' + r.reps + ' reps</span></div>').join('');
+H.push('<section><h2>Quota attainment, latest full quarter</h2><p class="sub">' +
+  'Measured in activated monthly spend, not bookings. The tick marks 100%.</p>' +
+  '<table><thead><tr><th>Rep</th><th>Quota</th><th>Actual</th><th>vs quota</th>' +
+  '<th>Attainment</th></tr></thead><tbody>' + at + '</tbody></table>' +
+  '<p class="sub" style="margin-top:18px">Average attainment by tenure. The ramp is why ' +
+  'a hiring plan cannot be read off headcount alone.</p><div class="flow">' + rp +
+  '</div></section>');
+
+// ---------------- segments + products ----------------
+const sg = D.segments.map(s => '<tr><th>' + esc(s.segment) + '</th>' +
+  '<td class="num">' + nInt(s.referrals) + '</td>' +
+  '<td class="num">' + pc(s.wr_closed_pct) + '</td>' +
+  '<td class="num">' + nInt(s.median_cycle_days) + 'd</td>' +
+  '<td class="num">' + usd(s.spend_per_account_usd) + '</td>' +
+  '<td class="num">' + usd(s.spend_usd) + '</td></tr>').join('');
+const pr = D.products.map(p => '<tr><th>' + esc(p.product_line) + '</th>' +
+  '<td class="num">' + nInt(p.accounts) + '</td>' +
+  '<td class="num">' + usd(p.spend_usd) + '</td>' +
+  '<td class="num">' + usd(p.net_revenue_usd) + '</td>' +
+  '<td class="num alt">' + pc(p.take_rate_pct, 2) + '</td></tr>').join('');
+H.push('<div class="cols"><section><h2>By segment</h2><table><thead><tr><th>Segment</th>' +
+  '<th>Refs</th><th>WR</th><th>Cycle</th><th>Per account</th><th>Spend</th></tr></thead>' +
+  '<tbody>' + sg + '</tbody></table></section><section><h2>By product line</h2><table>' +
+  '<thead><tr><th>Product</th><th>Accounts</th><th>Spend</th><th>Net rev</th><th>Take</th>' +
+  '</tr></thead><tbody>' + pr + '</tbody></table></section></div>');
+
+// ---------------- losses ----------------
+const lMax = maxOf(D.losses, r => Number(r.deals));
+let ls = '';
+D.losses.forEach(l => {
+  const nr = l.reason === 'Not recorded' ? ' nr' : '';
+  ls += '<div class="frow"><div class="flabel' + nr + '">' + esc(l.reason) + '</div>' +
+    '<div class="ftrack"><div class="fbar' + nr + '" style="width:' +
+    (Number(l.deals) / lMax * 100).toFixed(1) + '%"></div></div>' +
+    '<div class="fval">' + nInt(l.deals) + '</div></div>';
+});
+H.push('<section><h2>Why referrals are lost</h2><p class="sub">A loss with no reason ' +
+  'recorded cannot be coached, and cannot be fed back to the partner who sent it.</p>' +
+  ls + '</section>');
+
+// ---------------- audit ledger ----------------
+const ACC = { QUARANTINE: ['quarantined','q'], CORRECT: ['corrected','c'], FLAG: ['flagged','f'] };
+let ld = '';
+D.audit.forEach(r => {
+  if (!Number(r.rows)) return;
+  const a = ACC[r.action] || ['flagged','f'];
+  ld += '<li class="led ' + a[1] + '"><div class="led-h"><span class="led-r">' +
+    esc(r.rule) + '</span><span class="led-n">' +
+    Number(r.rows).toLocaleString('en-US') + '</span></div>' +
+    '<div class="led-a">' + a[0] + '</div><p>' + esc(r.detail) + '</p></li>';
+});
+H.push('<section><h2>What the cleanup engine found</h2><p class="sub">Nothing is dropped ' +
+  'silently: every affected row keeps the rule that touched it, and everything removed ' +
+  'lands in a quarantine sheet anyone can open.</p><ul class="ledger">' + ld +
+  '</ul></section>');
+
+document.getElementById('app').innerHTML = H.join('');
+document.getElementById('foot').innerHTML =
+  'Generated from the cleaned tables in this spreadsheet. Cleanup engine: fifteen rules, ' +
+  'auditable output. Reference month ' + K['Reference month'] + '.';
+</script>
+</body>
+</html>
